@@ -21,7 +21,8 @@ function App() {
         setIsTranslated(true);
       }
     } catch (err) {
-      setError(data.error.message);
+      setText("");
+      setError(error.message);
     }
   };
 
