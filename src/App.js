@@ -6,6 +6,7 @@ function App() {
   const [text, setText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [isTranslated, setIsTranslated] = useState(false);
+  const [error, setError] = useState("");
 
   const URI = "https://api.funtranslations.com/translate/groot.json";
 
@@ -14,9 +15,13 @@ function App() {
     const res = await fetch(`${URI}?text=${text}`);
     const data = await res.json();
 
-    if (data) {
-      setTranslatedText(data.contents.translated);
-      setIsTranslated(true);
+    try {
+      if (data) {
+        setTranslatedText(data.contents.translated);
+        setIsTranslated(true);
+      }
+    } catch (err) {
+      setError(data.error.message);
     }
   };
 
@@ -55,23 +60,28 @@ function App() {
             </div>
             <div className="w-full flex items-start px-3">
               <div className="flex items-start w-1/2 mr-auto">
-                <svg
-                  fill="none"
-                  className="w-5 h-5 text-red-500 mr-1"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <p className="text-xs md:text-sm pt-px text-red-500">
-                  Error text
-                </p>
+                {error && (
+                  <>
+                    <svg
+                      fill="none"
+                      className="w-5 h-5 text-red-500 mr-1"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="text-xs md:text-sm pt-px text-red-500">
+                      Error text
+                    </p>
+                  </>
+                )}
               </div>
+
               <div className="-mr-1">
                 {isTranslated ? (
                   <button
