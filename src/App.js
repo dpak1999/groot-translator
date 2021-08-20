@@ -77,7 +77,7 @@ function App() {
                       />
                     </svg>
                     <p className="text-xs md:text-sm pt-px text-red-500">
-                      Error text
+                      {error}
                     </p>
                   </>
                 )}
